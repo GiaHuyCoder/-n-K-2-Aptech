@@ -57,16 +57,63 @@ public class ProductDao {
 
 return productsList;
     }
-    //UPDATE
-    public void updateProduct(int ProductID, String Name, String Gender, String BrandName, String Material, String Description, Double Price, int Stock, int Sold, int CategoryID){
-        UpdateProduct updateProduct = new UpdateProduct();
-        UpdateProduct.updateProduct(ProductID,Name,Gender,BrandName,Material,Description,Price,Stock,Sold,CategoryID);
+
+    // UPDATE
+    public static void updateProduct(int productID,String name,String gender , String brandName, String material , String desscription , double price , int stock , int sold , int categoryID){
+        String sql = "UPDATE products SET Name = ?, Gender = ? , BrandName = ?, Material = ? , Description = ? ,  " + "Price = ? , Stock = ? , Sold = ? , CategoryID = ? WHERE ProductID = ? ";
+
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1,name);
+            pstmt.setString(2,gender);
+            pstmt.setString(3,brandName);
+            pstmt.setString(4,material);
+            pstmt.setString(5,desscription);
+            pstmt.setDouble(6,price);
+            pstmt.setInt(7,stock);
+            pstmt.setInt(8,sold);
+            pstmt.setInt(9,categoryID);
+            pstmt.setInt(10,productID);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected >0 ) {
+                System.out.println("Cập nhật sản phẩm thành công!");
+            }else {
+                System.out.println("Không tìm thấy sản phẩm để cập nhật!");
+
+            }
+
+
+        }catch (SQLException e){
+            System.out.println("Lỗi khi cập nhật sản phẩm "+ e.getMessage());
+        }
+
+
+
     }
 
-    // DELETE
-    public void deleteProduct(int ProductID){
-        DeleteProduct deleteProduct = new DeleteProduct();
-        deleteProduct.deleteProduct(ProductID);
+    //DELETE
+    public static void deleteProduct(int productID){
+        String sql = "DELETE FROM products WHERE ProductID = ?";
+
+        try(Connection conn = MySQLConnection.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setInt(1,productID);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0){
+                System.out.println("Xóa sản phẩm thành công!");
+
+            }else {
+                System.out.println("Không tìm thấy sản phẩm để xóa!");
+            }
+
+        } catch (SQLException e){
+            System.out.println("Lỗi khi xóa sản phẩm!" + e.getMessage());
+
+        }
+
     }
+
 
 }

@@ -2,8 +2,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[]args){
         ProductDao productDao = new ProductDao();
-        UpdateProduct updateProduct = new UpdateProduct();
-        DeleteProduct deleteProduct = new DeleteProduct();
+
         Scanner scanner = new Scanner(System.in);
         // thêm một sản phẩm vào db
         productDao.addProduct(
@@ -35,11 +34,11 @@ public class Main {
         }
 
         // tùy chọn cập nhật và xóa
-        System.out.println("Chọn hành động : 1-Update v");
+        System.out.println("Chọn hành động : 1 - Update , 2 - Delete");
         int choice = scanner.nextInt();
         if (choice == 1){
             // Update
-            updateProduct.updateProduct(
+            ProductDao.updateProduct(
                     1,
                     "Áo Hoodie",
                     "Unisex",
@@ -48,6 +47,7 @@ public class Main {
                     "Thiết kế mới với chất liệu tuyệt vời từ vải cotton, phù hợp cả nam và nữ . Thiết kế bởi nhà thiết kế Jay,",
                     890.99,
                     130,
+                    76,
                     103
 
             );
@@ -55,7 +55,7 @@ public class Main {
             // Delete
             System.out.println("Nhập ID sản phẩm cần xóa:");
             int productId = scanner.nextInt();
-            deleteProduct.deleteProduct(productId);
+            ProductDao.deleteProduct(productId);
         } else {
             System.out.println("Hành động không hợp lệ !");
         }
